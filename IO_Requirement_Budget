@@ -1,0 +1,25 @@
+//input
+[
+    {
+        "month":1,
+        "categiry":"food",
+        "amount":100
+    }
+]
+
+//output
+{
+    "category":{
+        "food":""
+    },
+    "month":[{
+        "monthName":"jan",
+        "total":"",
+        "high":"",
+        "low":"",
+        "categoryWise":[{
+            "category":"",
+            "total":""
+        }]
+    }]
+}
