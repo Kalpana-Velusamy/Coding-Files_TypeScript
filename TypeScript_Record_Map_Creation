@@ -1,0 +1,70 @@
+//Create a map
+let fruitsList = ["apple","orange","banana"]
+console.log(fruitsList)
+
+//add new item to map
+fruitsList.push("pear")
+console.log(fruitsList)
+
+//get specific value from map by position
+console.log(fruitsList[0])
+
+//remove an item from map by position
+fruitsList.splice(1,1)
+console.log(fruitsList)
+
+//modify an item from map by position
+fruitsList.splice(1,0,"orange")
+console.log(fruitsList)
+
+//find index value of an item from a map
+let index_value = fruitsList.indexOf("orange")
+console.log(index_value)
+
+//add an item to specific position in a map
+fruitsList.splice(index_value,1,"lemon")
+console.log(fruitsList)
+
+//get value of specific position from a map
+console.log(fruitsList[2])
+console.log(fruitsList.indexOf("banana"))
+
+//create a second map
+let fruitList2 = ["chiku","mango","blueberry"]
+console.log(fruitList2)
+
+//merge two maps
+console.log(fruitsList.concat(fruitList2))
+
+//create a new record
+let fruitMap:Record<string,number> = {"apple":10,"mango":20,"banana":30}
+console.log(fruitMap)
+
+//add new items to a record
+fruitMap["pear"] = 50
+console.log(fruitMap)
+
+//remove an item from a record
+delete fruitMap["banana"]
+console.log(fruitMap)
+
+//add an item to record//change value
+fruitMap["banana"] = 100
+console.log(fruitMap)
+//change value of an item in a record
+fruitMap["pear"] = 51
+console.log(fruitMap)
+
+//print a value of an item from a record
+console.log(fruitMap["banana"])
+
+//print list of fruit names from the record
+let fruitName = Object.keys(fruitMap)
+console.log(fruitName)
+
+//create a second record 
+let fruitMap2: Record<string,number> = {"blueberry":80,"strawberry":90}
+
+//merge two records
+let mergedMap: Record<string,number> = {...fruitMap,...fruitMap2}
+console.log(mergedMap)
