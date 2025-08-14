@@ -1,0 +1,152 @@
+class ExpenseLog {
+    month:string;
+    category: string;
+    cost: number;
+    constructor(month:string,category: string, cost: number) {
+        this.month = month;
+        this.category = category;
+        this.cost = cost;
+    }
+}
+
+class Food {
+    foodList: ExpenseLog[];//List<amout> =[ amt1, amt2]
+    monthlyList:Record<string,any> ={};
+    monthName:string;
+    listOfMonth:Record<string,number>;
+    constructor(expense:ExpenseLog[]) {
+       
+        this.monthName = "";
+        this.foodList = expense;
+        this.listOfMonth = {};
+        this.createListOfMonth();
+        
+    }
+    createListOfMonth(){
+        for(var i =0;i<this.foodList.length;i++){
+            this.listOfMonth = {};
+            this.monthName = this.foodList[i].month;
+            let categName = this.foodList[i].category;
+            let cosst = this.foodList[i].cost
+            // if(this.listOfMonth[categName]){
+            //     this.listOfMonth[categName] = this.listOfMonth[categName] + cosst;
+            // }
+            // else{
+            //     this.listOfMonth[categName] = cosst
+            // }
+             if(this.monthlyList[this.monthName]){
+                if(this.monthlyList[this.monthName][categName]){
+                this.monthlyList[this.monthName][categName] = this.monthlyList[this.monthName][categName] + cosst
+                // console.log("cost is ",this.monthlyList[this.monthName][categName])
+                // console.log(this.monthlyList[this.monthName])
+                }
+                else{
+                this.monthlyList[this.monthName][categName] = cosst
+                // console.log(this.monthlyList)
+                }
+             }
+             else
+             {
+                this.monthlyList[this.monthName] = this.listOfMonth
+                this.listOfMonth[categName] = cosst
+            }
+        }
+    }
+    displayExpense()
+    {
+        const budgetList:Record<string,any>[] = [];
+        //let monthlyBudget:Record<string,any> ={}
+        //let budgetRecord:Record<string,any> = {}
+        let monthNames = Object.keys(this.monthlyList);
+        // console.log(monthNames)
+         //console.log(monthNames.length)
+        for(var i = 0; i< monthNames.length;i++){
+            let budgetRecord:Record<string,any> = {}
+            let categoryNames = Object.keys(this.monthlyList[monthNames[i]]);
+            budgetRecord["month"] = monthNames[i];
+            budgetRecord["total"] = 0
+            for(var j = 0; j< categoryNames.length;j++){    
+                    budgetRecord["total"] = budgetRecord["total"] + this.monthlyList[monthNames[i]][categoryNames[j]]
+             }
+            //console.log(budgetRecord)
+            budgetList.push(budgetRecord)
+        }
+        return budgetList;
+    }
+    budgetReport()
+    {
+        let monthlyReport:Record<string,any> = this.displayExpense();
+        let keysList = monthlyReport.length;
+        //console.log(keysList)
+        let categoryReport:Record<string,any> = {};
+        for (var i = 0 ;i<keysList;i++){
+            let keysList2 = Object.keys(monthlyReport[i])
+            let keysLength = Object.keys(monthlyReport).length
+            for(var j = 0;j <keysLength;j++){
+                //console.log(keysList2[j])
+                categoryReport["Month Name"] = keysList2[j];
+                categoryReport["Monthly Total Expense"] = monthlyReport[i].total;
+                
+                //console.log(monthlyReport["Monthly Total Expense"])
+            }
+            categoryReport["Categorywise Report"] = this.monthlyList[i];
+            
+        //monthlyReport["Month Name"] = monthlyReport.month[i];
+        //monthlyReport["Monthly Total Expense"] = monthlyReport.total[i];
+        // monthlyReport["Less Spending Category"] = this.calcualteLessSpending();
+        // monthlyReport["Categorywise Report"] = this.monthlyList;
+        }
+        
+        return categoryReport;
+
+    }
+    calculateMonthlyTotal(){
+        let monthList:Record<string,any>[]= [];
+        monthList = this.displayExpense();
+        let lengthOfList= Object.keys(monthList).length
+        let monthlyTotal = 0
+        for(var i =0;i<lengthOfList;i++)
+        {
+            monthlyTotal = monthlyTotal + monthList[i].total
+        }
+        return monthlyTotal;
+    }
+    calcualteLessSpending(){
+        let monthList:Record<string,any>[]= [];
+        let lessSpending:Record<string,any> = {};
+        monthList = this.displayExpense();
+        let lengthOfList= Object.keys(monthList).length
+        let lessTotal = 0
+        let lessCategory = ""
+        for(var i =0;i<lengthOfList;i++)
+        {
+            if(lessTotal == 0){
+            lessTotal = monthList[i].total
+            lessCategory =monthList[i].category
+            }
+            else{
+                if (monthList[i].total<lessTotal)
+                lessTotal = monthList[i].total
+                lessCategory =monthList[i].category
+            }
+        }
+
+        lessSpending[lessCategory] = lessTotal
+        return lessSpending;
+    }
+}
+
+let expense1 = [
+new ExpenseLog("Aug","hotel", 1000),
+new ExpenseLog("Aug","online", 2000),
+new ExpenseLog("Aug","grocery", 3000),
+new ExpenseLog("Sep","hotel", 1500),
+new ExpenseLog("Sep","grocery", 2500),
+new ExpenseLog("Sep","hotel", 3500)
+]
+let food1 = new Food(expense1)
+//food1.budgetReport()
+
+//console.log(food1.displayExpense())
+console.log(food1.budgetReport())
+//console.log(food1.calculateMonthlyTotal())
